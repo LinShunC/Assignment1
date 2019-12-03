@@ -18,133 +18,108 @@
  */
 var app = {
     // Application Constructor
-
+    initialize: function() {
+        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+    },
 
     // deviceready Event Handler
     //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
-        document.addEventListener('deviceready', app.initialize);
-        document.addEventListener("deviceready", onDeviceReady, false);
+        this.receivedEvent('deviceready');
+        document.getElementById('test').addEventListener('click', takePhoto);
+        document.getElementById('addBtn').addEventListener('click', addTakePhoto);
+        var c = localStorage.getItem("photo")
+        var img = document.getElementById("photo");
 
-        function onDeviceReady() {
-            console.log(navigator.camera);
-        }
-        /*  let app = {
-              init: function() {
-                  document.getElementById("test").addEventListener('click', app.takephoto);
-              },
-              takephoto: function() {
-                  let opts = {
-                      quality: 80,
-                      destinationType: Camera.DestinationType.FILE_URI,
-                      sourceType: Camera.PictureSourceType.CAMERA,
-                      mediaType: Camera.MediaType.PICTURE,
-                      encodingType: Camera.encodingType.JPEG,
-                      cameraDirection: Camera.Direction.BACK,
-                      targetWidth: 300,
-                      targetHeight: 400
 
-                  };
-                  navigator.camera.getPicture(app.ftw, app, wtf, opts);
 
-              },
-              ftw: function(imgURI) {
-                  document.getElementById("photo").src = imgURI;
-              },
-              wtf: function(msg) {
-                  alert(msg);
-              }
-          };*/
-        document.getElementById("test").addEventListener('click', openCamera());
-
-        function openCamera(selection) {
-
-            var srcType = Camera.PictureSourceType.CAMERA;
-            var options = setOptions(srcType);
-            var func = createNewFileEntry;
-
-            navigator.camera.getPicture(function cameraSuccess(imageUri) {
-
-                displayImage(imageUri);
-                // You may choose to copy the picture, save it somewhere, or upload.
-                func(imageUri);
-
-            }, function cameraError(error) {
-                console.debug("Unable to obtain picture: " + error, "app");
-
-            }, options);
+        if (c != null) {
+            img.src = c;
         }
 
-        function setOptions(srcType) {
-            var options = {
-                // Some common settings are 20, 50, and 100
+        function takePhoto() {
+            navigator.camera.getPicture(success, error, {
                 quality: 50,
-                destinationType: Camera.DestinationType.FILE_URI,
-                // In this app, dynamically set the picture source, Camera or photo gallery
-                sourceType: srcType,
-                encodingType: Camera.EncodingType.JPEG,
-                mediaType: Camera.MediaType.PICTURE,
-                allowEdit: true,
-                correctOrientation: true
-            }
-            return options;
+                destinationType: Camera.DestinationType.DATA_URI
+            })
         }
 
-        function displayImage(imgUri) {
-
-            var elem = document.getElementById('photo');
-            elem.src = imgUri;
+        function success(imageData) {
+            var img = document.getElementById("photo");
+            // img.src = "data:image/jpeg;base64," + imageData;
+            img.src = imageData;
+            localStorage.setItem('photo', imageData);
         }
 
+        function error(err) {
+            console.log("error:" + err)
+        }
 
+        function addTakePhoto() {
+            navigator.camera.getPicture(addsuccess, adderror, {
+                quality: 50,
+                destinationType: Camera.DestinationType.DATA_URI
+            })
+        }
 
+        function addsuccess(imageData) {
+            var img = document.getElementById("photo");
+            // img.src = "data:image/jpeg;base64," + imageData;
+            img.src = imageData;
 
+            var value = document.querySelector('input');
+            var inputValue = value.value;
 
+            localStorage.setItem(inputValue, imageData);
+            value.value = "";
+        }
 
-
-
-
-
-
-        /*  var THIS = this;
-        $('#singup_btn').change(function() {
-            if (this.checked) {
-                window.location.href = "#signup";
-            }
-        });
-        $('#login_btn').change(function() {
-            if (this.checked) {
-                //THIS.validateUser();
-                window.location.href = "#home";
-            }
-        });
-
-        $('#save_btn').change(function() {
-            if (this.checked) {
-                // THIS.saveNewUser();
-                window.location.href = "#login";
-            }
-        });
-
-        $('#cancel_btn').change(function() {
-            if (this.checked) {
-                window.location.href = "#login";
-            }
-        });
-*/
+        function adderror(err) {
+            console.log("error:" + err)
+        }
     },
 
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+        //var listeningElement = parentElement.querySelector('.listening');
+        //     var receivedElement = parentElement.querySelector('.received');
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+        //     listeningElement.setAttribute('style', 'display:none;');
+        //   receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
     }
 };
+
+app.initialize();
+
+
+
+
+/* var THIS = this;
+ // add listeners
+ $('#singup_btn').change(function () {
+     if (this.checked) {
+         window.location.href = "#signup";
+     }
+ });
+ $('#login_btn').change(function () {
+     if (this.checked) {
+         THIS.validateUser();
+     }
+ });
+
+ $('#save_btn').change(function () {
+     if (this.checked) {
+         THIS.saveNewUser();
+     }
+ });
+
+ $('#cancel_btn').change(function () {
+     if (this.checked) {
+         window.location.href = "#login";
+     }
+ });*/

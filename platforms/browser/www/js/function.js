@@ -2,14 +2,17 @@ $(function() {
     // show the tasks
     var l = localStorage.length;
     for (var i = 0; i < l; i++) {
+
         var close = document.getElementsByClassName("close");
         var li = document.createElement("li");
         var a = localStorage.key(i);
         var b = localStorage.getItem(a);
         var c = document.createTextNode(b);
-        li.className = "llist";
-        li.appendChild(c);
-        document.getElementById("myUL").appendChild(li);
+        if (a != "photo" && b.length < 50) {
+            li.className = "llist";
+            li.appendChild(c);
+            document.getElementById("myUL").appendChild(li);
+        }
 
     }
 
@@ -44,7 +47,7 @@ $(function() {
                     localStorage.removeItem(a);
                 }
             }
-            alert("task is removed");
+
         }
     }
     // Add a "checked" symbol when clicking on a list item
@@ -53,11 +56,39 @@ $(function() {
         if (ev.target.tagName === 'LI') {
             ev.target.classList.toggle('checked');
         }
+
+
+        var info = ev.target.textContent;
+        var test = info.substring(0, info.length - 1);
+        alert(test);
+        var n = localStorage.length;
+        for (var i = 0; i < n; i++) {
+
+            var a = localStorage.key(i);
+            var b = localStorage.getItem(a);
+            if (a == test) {
+
+                var img = document.getElementById("photo");
+                img.src = b;
+            }
+        }
+
+        /*  var n = localStorage.length;
+          for (var i = 0; i < n; i++) {
+              var close = document.getElementsByClassName("close");
+              var li = document.createElement("li");
+              var a = localStorage.key(i);
+              var b = localStorage.getItem(a);
+              if (b == result) {
+                  localStorage.removeItem(a);
+              }
+          }*/
     }, false);
 
     // Create a new list item when clicking on the "Add" button
     var add = document.querySelector('span');
     add.addEventListener('click', function(ev) {
+
         var li = document.createElement("li");
         li.className = "llist";
         // var value = document.getElementById("input");
@@ -70,27 +101,30 @@ $(function() {
             alert("You must write something!");
         } else {
             document.getElementById("myUL").appendChild(li);
-        }
 
-        var val = value.value;
-        var today = new Date();
-        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        var dateTime = date + ' ' + time;
-        localStorage.setItem(dateTime, val);
-        //  document.getElementById("myInput").value = "";
-        value.value = "";
-        // document.getElementById("input").innerHTML = " ";
-        var span = document.createElement("SPAN");
-        var txt = document.createTextNode("\u00D7");
-        span.className = "close";
-        span.appendChild(txt);
-        li.appendChild(span);
 
-        for (i = 0; i < close.length; i++) {
-            close[i].onclick = function() {
-                var div = this.parentElement;
-                div.style.display = "none";
+            var val = value.value;
+            var today = new Date();
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var dateTime = date + ' ' + time;
+            if (val != null) {
+                localStorage.setItem(dateTime, val);
+            }
+            //  document.getElementById("myInput").value = "";
+
+            // document.getElementById("input").innerHTML = " ";
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            li.appendChild(span);
+
+            for (i = 0; i < close.length; i++) {
+                close[i].onclick = function() {
+                    var div = this.parentElement;
+                    div.style.display = "none";
+                }
             }
         }
 

@@ -271,14 +271,30 @@ ul li.checked::before {
 .logo {
     display: block;
     padding: 10px;
+    height: 200px;
+    width: 200px;
     margin-left: auto;
     margin-right: auto;
 }
 
+#test {
+    width: 300px;
+    margin: auto;
+    display: block;
+}
+
+
+}
 .list {
     height: auto;
     background-color: skyblue;
     background-position: center;
     background-size: cover;
     position: relative;
+}
+.buttondiv {
+    text-align: center;
+}
+.footer {
+    text-align: center;
 }
