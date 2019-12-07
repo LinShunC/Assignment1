@@ -1,6 +1,7 @@
 $(function() {
     // show the tasks
     var l = localStorage.length;
+
     for (var i = 0; i < l; i++) {
 
         var close = document.getElementsByClassName("close");
@@ -8,7 +9,7 @@ $(function() {
         var a = localStorage.key(i);
         var b = localStorage.getItem(a);
         var c = document.createTextNode(b);
-        if (a != "photo" && b.length < 50) {
+        if (a != "photo" && b.length < 40) {
             li.className = "llist";
             li.appendChild(c);
             document.getElementById("myUL").appendChild(li);

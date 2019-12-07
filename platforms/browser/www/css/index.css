@@ -281,10 +281,9 @@ ul li.checked::before {
     width: 300px;
     margin: auto;
     display: block;
+    margin-top: 40px;
 }
 
-
-}
 .list {
     height: auto;
     background-color: skyblue;
@@ -292,9 +291,11 @@ ul li.checked::before {
     background-size: cover;
     position: relative;
 }
+
 .buttondiv {
     text-align: center;
 }
+
 .footer {
     text-align: center;
 }
