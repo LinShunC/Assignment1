@@ -20,20 +20,37 @@ var app = {
     // Application Constructor
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+
     },
+
+
 
     // deviceready Event Handler
     //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
+
         this.receivedEvent('deviceready');
+        document.addEventListener("resume", onResume, false);
+        document.addEventListener("pause", onPause, false);
         document.getElementById('test').addEventListener('click', takePhoto);
         document.getElementById('addBtn').addEventListener('click', addTakePhoto);
         var c = localStorage.getItem("photo")
         var img = document.getElementById("photo");
 
+        function onPause() {
+            this.receivedEvent('pause');
+            var today = new Date();
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var dateTime = date + ' ' + time;
+            document.getElementById("message").innerHTML = dateTime;
+        }
 
+        function onResume() {
+            alert("welcome back!");
+        }
 
         if (c != null) {
             img.src = c;
