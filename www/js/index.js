@@ -114,7 +114,9 @@ function onPause() {
 }
 
 function onResume() {
-    alert("welcome back!");
+    var text = document.getElementById("message");
+    text.innerHTML = "welcome back!";
+
 }
 
 app.initialize();
