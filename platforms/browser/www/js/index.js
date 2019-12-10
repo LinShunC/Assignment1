@@ -45,7 +45,9 @@ var app = {
             var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             var dateTime = date + ' ' + time;
-            document.getElementById("message").innerHTML = dateTime;
+            var text = document.getElementById("message");
+            localStorage.setItem("time", dateTime);
+            text.innerHTML = "dsfsdf";
         }
 
         function onResume() {

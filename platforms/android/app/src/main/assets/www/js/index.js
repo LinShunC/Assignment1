@@ -39,19 +39,7 @@ var app = {
         var c = localStorage.getItem("photo")
         var img = document.getElementById("photo");
 
-        function onPause() {
-            this.receivedEvent('pause');
-            var today = new Date();
-            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            var dateTime = date + ' ' + time;
-            var text = document.getElementById("message");
-            text.innerHTML = "dsfsdf";
-        }
 
-        function onResume() {
-            alert("welcome back!");
-        }
 
         if (c != null) {
             img.src = c;
@@ -110,7 +98,24 @@ var app = {
 
         console.log('Received Event: ' + id);
     }
+
 };
+
+function onPause() {
+    this.receivedEvent('pause');
+    var today = new Date();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date + ' ' + time;
+    var text = document.getElementById("message");
+    localStorage.setItem("time", dateTime);
+    text.innerHTML = "dsfsdf";
+    alert("hi");
+}
+
+function onResume() {
+    alert("welcome back!");
+}
 
 app.initialize();
 
